@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <title>Movie Rating</title>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <!-- Custom Script JS -->
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("button").click(function () {
+                $.ajax({
+                    url: "getJSON",
+
+                    success: function (result) {
+                        //$("#div1").html(result);
+                        console.log(result);
+                        result = JSON.stringify(result);
+                        result = JSON.parse(result);
+                        $.each(result, function (i, $val) {
+                            console.log($val.movie_title);
+                            $('#movie_table tr:last').after('<tr><td>' + $val.movie_title + '</td><td>' +
+                                $val.director_name + '</td><td>' +
+                                $val.actor_1_name + '</td><td>' +
+                                $val.actor_2_name + '</td><td>' +
+                                $val.genres + '</td><td>' +
+                                $val.language + '</td><td>' +
+                                $val.movie_imdb_link + '</td><td>' +
+                                $val.title_year + '</td><td>' +
+                                $val.budget + '</td><td>' +
+                                $val.country + '</td>'
+                                + '</tr>');
+                        });
+                        //window.alert(result[0]["movie_title"]);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error");
+                        console.log(status);
+                        console.log(error)
+                    }
+                });
+            });
+            $("#search").on("input", function () {
+                $.ajax({
+                    url: "getJSON",
+
+                    success: function (result) {
+                        //$("#div1").html(result);
+                        console.log(result);
+                        result = JSON.stringify(result);
+                        result = JSON.parse(result);
+                        var rowappend = "rowappend";
+                        $('#movie_table tbody tr').remove();
+                        $.each(result, function (i, $val) {
+                            console.log("I'm here");
+                            console.log($("#search").val() )
+                            if($val.title_year==$("#search").val() ){
+                                
+                                $('#movie_table tbody').append('<tr class='+rowappend+'><td>' + $val.movie_title + '</td><td>' +
+                                $val.director_name + '</td><td>' +
+                                $val.actor_1_name + '</td><td>' +
+                                $val.actor_2_name + '</td><td>' +
+                                $val.genres + '</td><td>' +
+                                $val.language + '</td><td>' +
+                                $val.movie_imdb_link + '</td><td>' +
+                                $val.title_year + '</td><td>' +
+                                $val.budget + '</td><td>' +
+                                $val.country + '</td>'
+                                + '</tr>');
+                            }
+                            
+                            
+                            
+                        });
+                        //window.alert(result[0]["movie_title"]);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error");
+                        console.log(status);
+                        console.log(error)
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+
+
+        <div class="topnav">
+            <a class="active" href="#home">Home</a>
+
+            <input type="text" id="search" placeholder="Search..">
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <i>Movie World</i>
+            <button value="getJSONData">Get Data</button>
+        </div>
+        <div class="col-md-6">
+
+            <table id="movie_table" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Movie
+                        </th>
+                        <th>
+                            Director
+                        </th>
+                        <th>
+                            Actor1
+                        </th>
+                        <th>
+                            Actor2
+                        </th>
+                        <th>
+                            Genre
+                        </th>
+                        <th>
+                            Language
+                        </th>
+                        <th>
+                            IMDB
+                        </th>
+                        <th>
+                            Year
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                            Budget
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+                
+            </table>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+    </div>
+
+
+
+</body>
+
+</html>
